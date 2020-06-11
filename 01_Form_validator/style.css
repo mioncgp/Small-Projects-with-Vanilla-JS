@@ -5,9 +5,9 @@
 body {
   background-color: #f9fafb;
   font-family: Arial, Helvetica, sans-serif;
-  ds: center;
-  justify-contisplay: flex;
-  align-itement: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
   margin: 0;
 }
