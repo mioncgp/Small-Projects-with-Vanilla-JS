@@ -5,45 +5,32 @@ const total = document.getElementById("total");
 const movieSelect = document.getElementById("movie");
 let ticketPrice = parseInt(movieSelect.value);
 
-// Save selected movie index and price
+// set index of a movie and price to local storage
 setMovieData = (movieIndex, moviePrice) => {
   localStorage.setItem("selectedMovieIndex", movieIndex);
   localStorage.setItem("selectedMoviePrice", moviePrice);
 };
 
-// Get data from localstorage and populate UI
-populateUI = () => {
-  const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
-  if ((selectedSeats !== null) & (selectedSeats.length > 0)) {
-    seats.forEach((seat, index) => {
-      if (selectedSeats.indexOf(index) > -1) {
-        seat.classList.add("selected");
-      }
-    });
-  }
-  const selectedMovieIndex = localStorage.getItem("selectedMovieIndex");
+// updates seleted items and their sum
+updateSelectedItems = () => {
+  const selectedItems = document.querySelectorAll(".seat.selected");
+  const selectedItemsCount = selectedItems.length;
 
-  if (selectedMovieIndex !== null) {
-    movieSelect.selectedIndex = selectedMovieIndex;
-  }
-};
-// update total and count
-updateSelectedCount = () => {
-  const selectedSeats = document.querySelectorAll(".row .seat.selected");
-
-  const seatsIndex = [...selectedSeats].map(function (seat) {
+  const seatsIndex = [...selectedItems].map((seat) => {
     return [...seats].indexOf(seat);
   });
-  localStorage.setItem("selectedSeats", JSON.stringify(seatsIndex));
-  const selectedSeatsCount = selectedSeats.length;
-  count.innerText = selectedSeatsCount;
-  total.innerText = selectedSeatsCount * ticketPrice;
+
+  localStorage.setItem("selectedItems", JSON.stringify(seatsIndex));
+
+  count.innerText = selectedItemsCount;
+  total.innerHTML = selectedItemsCount * ticketPrice;
 };
 
-// Movie select event
+// event listeners
 movieSelect.addEventListener("change", (e) => {
+  ticketPrice = e.target.value;
   setMovieData(e.target.selectedIndex, e.target.value);
-  updateSelectedCount();
+  updateSelectedItems();
 });
 
 container.addEventListener("click", (e) => {
@@ -52,9 +39,16 @@ container.addEventListener("click", (e) => {
     !e.target.classList.contains("occupied")
   ) {
     e.target.classList.toggle("selected");
-    updateSelectedCount();
+    updateSelectedItems();
   }
 });
 
-populateUI();
-updateSelectedCount();
+// 1. Adding an event lisnener on the container because it is more performant
+// 2. Check if seats do not contain "occupied" then toggle them by adding a class3
+// 3. Create a func that has all the items that has the class "selected"
+// 4  Check the length, so you will have the amount of selected items,
+// 5. multiply it by ticket price and you'll get the sum
+// 6. Create also event listener on selected list and call update func inside it, so your data updates according to the movie price
+// 7. iterate over selected elements and check them again all the elements and return the indexes of seleted in a new array
+// 8. store the array of indexes in the localstorage
+// 9. create a func which accepts an index and a value and send the value of movie and the index to LS
