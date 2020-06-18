@@ -36,7 +36,27 @@ function displayWord() {
 
 // update the wrong letters
 function updateWrongLetterEl() {
-  console.log("update");
+  // display wrong letters
+  wrongLettersEl.innerHTML = `
+  ${wrongLetters.length > 0 ? "<p>Wrong</p>" : ""}
+  ${wrongLetters.map((letter) => `<span>${letter.toUpperCase()}</span>`)}`;
+
+  // show the hangman
+  figureParts.forEach((part, index) => {
+    const errors = wrongLetters.length;
+
+    if (index < errors) {
+      part.style.display = "block";
+    } else {
+      part.style.display = "none";
+    }
+  });
+
+  // check if lost
+  if (wrongLetters.length === figureParts.length) {
+    finalMessage.innerText = "Unfortunately you lost";
+    popup.style.display = "flex";
+  }
 }
 
 // show notification
@@ -69,6 +89,19 @@ window.addEventListener("keydown", (e) => {
       }
     }
   }
+});
+
+playAgainBtn.addEventListener("click", () => {
+  correctLetters.splice(0);
+  wrongLetters.splice(0);
+
+  selectedWord = words[Math.floor(Math.random() * words.length)];
+
+  displayWord();
+
+  updateWrongLetterEl();
+
+  popup.style.display = "none";
 });
 
 displayWord();
