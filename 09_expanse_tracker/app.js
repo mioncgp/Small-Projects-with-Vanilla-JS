@@ -13,7 +13,7 @@ let numNegative = 0;
 function addItem(e) {
   // prevent default behavior
   e.preventDefault();
-  if (nameInput.value === "" && amountInput.value === "") {
+  if (nameInput.value === "" || amountInput.value === "") {
     alert("Please enter values");
   } else {
     addValues(nameInput.value, amountInput.value);
@@ -55,6 +55,16 @@ function displayHistory(name, amount) {
     ${name} <span>${sign}${amount}</span><button class="delete-btn">x</button>
   </li>
     `;
+  deleteItems();
+}
+
+// deleteing items
+function deleteItems() {
+  history.querySelectorAll(".delete-btn").forEach((item) => {
+    item.addEventListener("click", (e) => {
+      console.log(e.target.parentElement.remove());
+    });
+  });
 }
 // Event lisneters
 button.addEventListener("click", addItem);
