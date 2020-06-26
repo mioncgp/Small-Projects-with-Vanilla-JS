@@ -1,21 +1,21 @@
-const musicContainer = document.getElementById('music-container');
-const playBtn = document.getElementById('play');
-const prevBtn = document.getElementById('prev');
-const nextBtn = document.getElementById('next');
+const musicContainer = document.getElementById("music-container");
+const playBtn = document.getElementById("play");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
 
-const audio = document.getElementById('audio');
-const progress = document.getElementById('progress');
-const progressContainer = document.getElementById('progress-container');
-const title = document.getElementById('title');
-const cover = document.getElementById('cover');
+const audio = document.getElementById("audio");
+const progress = document.getElementById("progress");
+const progressContainer = document.getElementById("progress-container");
+const title = document.getElementById("title");
+const cover = document.getElementById("cover");
 
-// Song titles
-const songs = ['hey', 'summer', 'ukulele'];
+// array of songs
+const songs = ["hey", "summer", "ukulele"];
 
-// Keep track of song
+// Keep track of songs
 let songIndex = 2;
 
-// Initially load song details into DOM
+// Initially load details into DOM
 loadSong(songs[songIndex]);
 
 // Update song details
@@ -25,20 +25,20 @@ function loadSong(song) {
   cover.src = `images/${song}.jpg`;
 }
 
-// Play song
+// Play func
 function playSong() {
-  musicContainer.classList.add('play');
-  playBtn.querySelector('i.fas').classList.remove('fa-play');
-  playBtn.querySelector('i.fas').classList.add('fa-pause');
+  musicContainer.classList.add("play");
+  playBtn.querySelector("i.fas").classList.remove("fa-play");
+  playBtn.querySelector("i.fas").classList.add("fa-pause");
 
   audio.play();
 }
 
-// Pause song
+// Pause func
 function pauseSong() {
-  musicContainer.classList.remove('play');
-  playBtn.querySelector('i.fas').classList.add('fa-play');
-  playBtn.querySelector('i.fas').classList.remove('fa-pause');
+  musicContainer.classList.remove("play");
+  playBtn.querySelector("i.fas").classList.remove("fa-pause");
+  playBtn.querySelector("i.fas").classList.add("fa-play");
 
   audio.pause();
 }
@@ -46,48 +46,42 @@ function pauseSong() {
 // Previous song
 function prevSong() {
   songIndex--;
-
   if (songIndex < 0) {
     songIndex = songs.length - 1;
   }
 
   loadSong(songs[songIndex]);
-
   playSong();
 }
 
 // Next song
 function nextSong() {
   songIndex++;
-
   if (songIndex > songs.length - 1) {
     songIndex = 0;
   }
 
   loadSong(songs[songIndex]);
-
   playSong();
 }
 
-// Update progress bar
+// Update progress
 function updateProgress(e) {
-  const { duration, currentTime } = e.srcElement;
+  const { duration, currentTime } = e.target;
   const progressPercent = (currentTime / duration) * 100;
   progress.style.width = `${progressPercent}%`;
 }
 
-// Set progress bar
+// Set progress
 function setProgress(e) {
   const width = this.clientWidth;
   const clickX = e.offsetX;
   const duration = audio.duration;
-
   audio.currentTime = (clickX / width) * duration;
 }
-
-// Event listeners
-playBtn.addEventListener('click', () => {
-  const isPlaying = musicContainer.classList.contains('play');
+// Event lisntener
+playBtn.addEventListener("click", () => {
+  const isPlaying = musicContainer.classList.contains("play");
 
   if (isPlaying) {
     pauseSong();
@@ -96,15 +90,9 @@ playBtn.addEventListener('click', () => {
   }
 });
 
-// Change song
-prevBtn.addEventListener('click', prevSong);
-nextBtn.addEventListener('click', nextSong);
+prevBtn.addEventListener("click", prevSong);
+nextBtn.addEventListener("click", nextSong);
 
-// Time/song update
-audio.addEventListener('timeupdate', updateProgress);
-
-// Click on progress bar
-progressContainer.addEventListener('click', setProgress);
-
-// Song ends
-audio.addEventListener('ended', nextSong);
+audio.addEventListener("timeupdate", updateProgress);
+progressContainer.addEventListener("click", setProgress);
+audio.addEventListener("ended", nextSong);
