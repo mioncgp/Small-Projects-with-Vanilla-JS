@@ -96,8 +96,6 @@ function gameOver() {
   endgameEl.style.display = "flex";
 }
 
-addWordToDOM();
-
 // Event lisner
 text.addEventListener("input", (e) => {
   const insertedText = e.target.value;
