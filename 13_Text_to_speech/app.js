@@ -126,7 +126,7 @@ function readText() {
   speakText();
 }
 
-// if the voices is chaned get them again
+// get the voices
 speechSynthesis.addEventListener("voiceschanged", getVoices);
 
 // show show or hide the text box
